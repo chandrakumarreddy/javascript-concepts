@@ -10,10 +10,15 @@ async function fetchData(type) {
   return Promise.reject(new Error("error"));
 }
 
-Promise.all([fetchData("films"), fetchData("films")])
-  .then(([a, b]) => {
+async function init() {
+  try {
+    const [a, b] = await Promise.all([fetchData("films"), fetchData("films")]);
     output.innerText = `${a.length} ${b.length}`;
-  })
-  .finally(() => {
+  } catch (error) {
+    output.innerText = ":(";
+  } finally {
     spinner.remove();
-  });
+  }
+}
+
+init();
